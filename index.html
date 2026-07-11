@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rádio Viola Raiz</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #2b0040, #4b0082);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.container {
+  text-align: center;
+  background: rgba(0,0,0,0.6);
+  padding: 20px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 380px;
+  box-shadow: 0 0 30px rgba(255,215,0,0.3);
+}
+
+.logo {
+  width: 100%;
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+
+h1 {
+  color: #ffd700;
+  font-size: 22px;
+}
+
+#musica {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #fff;
+}
+
+audio {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.btn {
+  margin-top: 15px;
+  padding: 12px;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(45deg, #ffd700, #ffae00);
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<img src="logo.png" class="logo">
+
+<h1>Rádio Viola Raiz</h1>
+
+<div id="musica">🎶 Carregando música...</div>
+
+<audio id="player" controls autoplay>
+  <source src="https://stm15.xcast.com.br:6826/stream" type="audio/mpeg">
+</audio>
+
+<button class="btn" onclick="player.play()">▶️ Ouvir Agora</button>
+
+<footer style="margin-top:10px;color:#aaa;font-size:12px;">
+© 2026 Rádio Viola Raiz
+</footer>
+
+</div>
+
+<script>
+async function atualizarMusica() {
+  try {
+    const res = await fetch("https://stm15.xcast.com.br:6826/status-json.xsl");
+    const data = await res.json();
+    const musica = data.icestats.source.title;
+    document.getElementById("musica").innerText = "🎶 " + musica;
+  } catch {
+    document.getElementById("musica").innerText = "🎶 Ao vivo";
+  }
+}
+
+setInterval(atualizarMusica, 10000);
+atualizarMusica();
+</script>
+
+</body>
+</html>
